@@ -1,2 +1,2 @@
-# tetris
-Tetris programmed with Python
+# Tetris
+A Python implementation of Tetris
