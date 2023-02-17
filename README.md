@@ -1,5 +1,5 @@
 # Tetris 
-This is a Python implementation of Tetris \
+This is a Python implementation of Tetris. 
 
 **User instructions**  \
 <kbd> Up </kbd>: change the tetris block orientation \
