@@ -166,7 +166,7 @@ class Window(QMainWindow):
     def __init__(self):
 
         super().__init__()
-        self.title = "PyQt5 Drawing Tutorial"
+        self.title = "Tetris Game"
         self.setStyleSheet("background-color: skyblue;")
         self.top= 150
         self.left= 150
