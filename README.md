@@ -1,5 +1,6 @@
 # Tetris 
 This is a Python implementation of Tetris. Enjoy playing it!
+
 **User instructions**  
 
 **Scores** \
