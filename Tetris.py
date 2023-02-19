@@ -18,7 +18,7 @@ KEY_DOWN = 16777237
 KEY_ROTATE = KEY_UP
 KEY_P = 80
 KEY_S = 83
-GridSize = 40
+GridSize = 20
 
 class SpeedDialog(QDialog):
     def __init__(self):
@@ -51,7 +51,7 @@ class SpeedDialog(QDialog):
     def styleSheet1(self):
         return"""
         QSlider{
-        background-color:'blue';
+        background-color:'dark gray';
         padding:1px;  
         }
         """
@@ -59,7 +59,7 @@ class SpeedDialog(QDialog):
     def styleSheet2(self):
         return"""
         QLabel{
-        background-color:'lightblue';
+        background-color:'light gray';
         color:white;
         padding:1px;
         min-width:20px;
@@ -68,12 +68,17 @@ class SpeedDialog(QDialog):
         """
 
 class TObject():
-    def __init__(self, type, max_x, max_y):
+    def __init__(self, type, max_x, max_y, colorIndex):
         self.type = type
+        self.colorIndex = colorIndex
         self.max_x = max_x
         self.max_y = max_y
         self.cells = np.zeros((4, 2), dtype=np.int8)
         self.define_object(type)
+        self.define_color(colorIndex)
+    
+    def define_color(self, colorIndex):
+        self.colorIndex = colorIndex
 
     def define_object(self, type):
         self.type = type
@@ -119,8 +124,9 @@ class TObject():
             self.cells[2,:] = 1, 0
             self.cells[3,:] = 2, 0
     
-    def re_init(self, type):
+    def re_init(self, type, colorIndex):
         self.define_object(type)
+        self.define_color(colorIndex)
 
     def rotate(self, map):
         flag =  True
@@ -167,11 +173,11 @@ class Window(QMainWindow):
 
         super().__init__()
         self.title = "Tetris Game"
-        self.setStyleSheet("background-color: skyblue;")
+        self.setStyleSheet("background-color: black;")
         self.top= 150
         self.left= 150
-        self.width = 1200
-        self.height = 1000
+        self.width = 405
+        self.height = 435
         self.starting_x = 5
         self.starting_y = 5
         self.InitWindow()
@@ -179,24 +185,28 @@ class Window(QMainWindow):
         self.objectLocationY = 40
         self.n_x, self.n_y = self.initGrid()
         self.Map = np.zeros((self.n_y, self.n_x))
+        self.ColorMap = np.zeros((self.n_y, self.n_x))
+        self.colorTable = [Qt.red, Qt.yellow, Qt.blue, Qt.green, Qt.cyan, Qt.darkYellow]
+        colorIndex = self.randomType(0, len(self.colorTable)-1)
         type = self.randomType(0,6)
-        self.Object = TObject(type, self.n_x - 1, self.n_y - 1)
+        self.Object = TObject(type, self.n_x - 1, self.n_y - 1, colorIndex)
         self.fillObject(self.Object)
         self.pause = False
         self.createSpeedDiag()      
         self.startTimer(self.speed)
+
     def UiComponents(self):
         self.text = "null"
         self.score = 0
         self.label = QLabel(self)
-        self.label.setGeometry(850, 150, 260, 60)
+        self.label.setGeometry(155, 410, 100, 20)
         self.label.setStyleSheet("QLabel"
         "{"
-        "border: 3px solid black;"
-        "background: white;"
+        "border: 1px white;"
+        "background: gray;"
         "}")
         self.label.setAlignment(Qt.AlignCenter)
-        self.label.setFont(QFont('Times', 15))
+        self.label.setFont(QFont('Times', 8))
 
     def createSpeedDiag(self):
         dlg  = SpeedDialog()
@@ -308,7 +318,8 @@ class Window(QMainWindow):
             self.eraseRow()
             if endGame == False:
                 type = self.randomType(0,6)
-                self.Object.re_init(type)
+                colorIndex = self.randomType(0, len(self.colorTable)-1)
+                self.Object.re_init(type, colorIndex)
                 self.fillObject(self.Object)
             else:
                 self.close()
@@ -339,13 +350,15 @@ class Window(QMainWindow):
         self.show()
 
     def initGrid(self):
-        n_x = int((self.width-400)/GridSize)
-        n_y = int((self.height-200)/GridSize)
+        n_x = int((self.width-5)/GridSize)
+        n_y = int((self.height-35)/GridSize)
         return n_x, n_y
 
     def fillObject(self, obj):
         for i in range(4):
             self.Map[obj.cells[i, 1], obj.cells[i, 0]] = 1
+            self.ColorMap[obj.cells[i, 1], obj.cells[i, 0]] = obj.colorIndex
+            
 
     def unfillObject(self, obj):
         for i in range(4):
@@ -357,26 +370,27 @@ class Window(QMainWindow):
         for ix in range(self.n_x):
             for iy in range(self.n_y):
                 if self.Map[iy, ix] == 1:
-                    self.fillCell(ix, iy)
+                    self.fillCell(ix, iy, self.ColorMap[iy, ix])
                      
 #Testing fillcell
-    def fillCell(self, x, y):
+    def fillCell(self, x, y, colorIndex):
         coodx = x*GridSize + 5
         coody = y*GridSize + 5
         painter = QPainter(self)
-        painter.setBrush(QBrush(Qt.darkBlue, Qt.SolidPattern))
+        color = self.colorTable[int(colorIndex)]
+        painter.setBrush(QBrush(color, Qt.SolidPattern))
         painter.drawRect(coodx, coody, GridSize, GridSize)
 
     def drawGrid(self):
         painter = QPainter(self)
-        divisions = int((self.width-400)/GridSize)
-        painter.setPen(QtCore.Qt.darkCyan)
+        divisions = int((self.width-5)/GridSize)
+        painter.setPen(QtCore.Qt.lightGray)
         x = self.starting_x
         y=  self.starting_y
         for i in range(divisions + 1):
             painter.drawLine(x, self.starting_y, x, self.starting_y + divisions * GridSize)
             x += GridSize
-        divisions = int((self.height-200)/GridSize)
+        divisions = int((self.height-35)/GridSize)
         for i in range(divisions + 1):
             painter.drawLine(self.starting_x, y, self.starting_x + divisions * GridSize, y)
             y += GridSize
