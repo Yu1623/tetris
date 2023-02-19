@@ -2,9 +2,9 @@ from tkinter import X
 from PyQt5 import QtGui
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QLabel
 from PyQt5.QtGui import QPainter, QBrush, QPen, QFont
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QLabel
 import sys
 import numpy as np
 import random
