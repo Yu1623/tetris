@@ -186,7 +186,7 @@ class Window(QMainWindow):
         self.n_x, self.n_y = self.initGrid()
         self.Map = np.zeros((self.n_y, self.n_x))
         self.ColorMap = np.zeros((self.n_y, self.n_x))
-        self.colorTable = [Qt.red, Qt.yellow, Qt.blue, Qt.green, Qt.cyan, Qt.darkYellow]
+        self.colorTable = [Qt.red, Qt.yellow, Qt.blue, Qt.green, Qt.cyan, Qt.magenta]
         colorIndex = self.randomType(0, len(self.colorTable)-1)
         type = self.randomType(0,6)
         self.Object = TObject(type, self.n_x - 1, self.n_y - 1, colorIndex)
