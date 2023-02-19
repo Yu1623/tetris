@@ -176,7 +176,7 @@ class Window(QMainWindow):
         self.setStyleSheet("background-color: black;")
         self.top= 150
         self.left= 150
-        self.width = 405
+        self.width = 410
         self.height = 435
         self.starting_x = 5
         self.starting_y = 5
@@ -296,6 +296,7 @@ class Window(QMainWindow):
         for row in range(start_row, 0, -1):
             print('test movecelldown: ', row)
             self.Map[row, :] = self.Map[row - 1, :]
+            self.ColorMap[row, :] = self.ColorMap[row - 1, :]
         self.Map[0, :] = 0
 
 
@@ -350,7 +351,7 @@ class Window(QMainWindow):
         self.show()
 
     def initGrid(self):
-        n_x = int((self.width-5)/GridSize)
+        n_x = int((self.width-10)/GridSize)
         n_y = int((self.height-35)/GridSize)
         return n_x, n_y
 
@@ -383,7 +384,7 @@ class Window(QMainWindow):
 
     def drawGrid(self):
         painter = QPainter(self)
-        divisions = int((self.width-5)/GridSize)
+        divisions = int((self.width-10)/GridSize)
         painter.setPen(QtCore.Qt.lightGray)
         x = self.starting_x
         y=  self.starting_y
