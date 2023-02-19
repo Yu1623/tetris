@@ -1,8 +1,6 @@
 # Tetris 
 This is a Python implementation of Tetris. Enjoy playing it!\
-The speed adjustment will appear when the game first opened and when 's' is clicked.\
-Click on the game window to move the blocks using the keyboard after the game first opened.\
-When a row is filled, it will be cleared and the blocks above it will all move down one row.\
+The speed adjustment will appear when the game first starts and when key 's' is pressed.\
 
 **Score** \
 Complete 1 row at a time: 1 point\
