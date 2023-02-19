@@ -1,6 +1,6 @@
 # Tetris 
 This is a Python implementation of Tetris. Enjoy playing it!\
-The speed adjustment will appear when the game first starts and when key 's' is pressed.\
+The speed adjustment will appear when the game first starts and when key 's' is pressed.
 
 **Score** \
 Complete 1 row at a time: 1 point\
