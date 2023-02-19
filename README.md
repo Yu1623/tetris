@@ -16,4 +16,4 @@ Complete 4 rows at a time: 8 points
 <kbd> s </kbd>: open speed adjustment\
 <kbd> p </kbd>: pause game
 
-![Here is a screenshot of the game](https://github.com/yuxuanliu-bsd/tetris/blob/main/Tetris%20Game.png)
+![Here is a screenshot of the game](https://github.com/yuxuanliu-bsd/tetris/blob/main/Tetris%20Game.gif)
